@@ -1,0 +1,29 @@
+table{  
+    border-collapse: collapse;  
+    width: 100%;  
+    padding: 0cm;
+}  
+ .prisustvo tr,td{  
+margin: 0cm;
+padding: 0cm;
+  
+
+} 
+.buduce td{
+    display: none;
+}
+th,td{  
+border: 2px solid black;   
+height: 1cm;
+ 
+text-align: center;
+}  
+p{
+text-align: center;
+}
+.prisustvovao{
+    background-color: lightgreen;
+}
+.nijePrisustvovao{
+    background-color: lightcoral;
+}

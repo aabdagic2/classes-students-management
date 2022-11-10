@@ -1,0 +1,100 @@
+.menu a+ul {
+
+padding: 0cm;
+}
+
+.menu li a{
+    color:darkcyan;
+}
+.menu a{
+color: darkcyan;
+}
+.menu{
+    display: inline-block;
+    position: relative;
+    padding: 1cm;
+    background-color: white;
+}
+img{
+  height:30px; 
+  width: 30px;
+}
+
+.rs_1,.rs_2,.bsc_1,.bsc_2,.bsc_3,.msc_1,.msc_2{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: minmax(100px, auto);
+    row-gap: 10px;
+    column-gap: 10px;
+    padding: 10px;
+  }
+.obavezni{
+background-color: white;
+border-style: solid;
+border-color: darkblue;
+  }
+.neIde{
+background-color: gray;
+border-style: solid;
+border-color: darkblue;
+  }
+.izborni{
+background-color: powderblue;
+border-style: solid;
+border-color: darkblue;
+  }
+.naslov{
+text-align: center;
+font-size: large;
+}
+p{
+text-align: center;   
+}
+
+@media screen and (min-width: 300px) {
+  #nb{
+      top:0cm;
+      margin: 0cm;
+      background-color: white;
+    }
+   .menu{
+    display: block;
+   }
+   .menu .lista ul{
+      list-style-type: none;
+      margin-left: 0.5cm;
+      margin-top: 0cm;
+    }
+   .menu li{
+    display: inline;
+    list-style: none;
+    margin-left: 0.5cm;
+    padding: 0cm;
+   }
+}
+
+@media screen and (min-width: 1015px) {
+  .menu{
+    display: block;
+   }
+   .menu .lista ul{
+      list-style-type: none;
+      margin-left: 0.5cm;
+      margin-top: 0cm;
+    }
+   .menu li{
+    display: inline;
+    list-style: none;
+    margin-left: 0.5cm;
+    padding: 0.5cm;
+   }
+  #nb{
+    position: sticky;
+      top:0cm;
+      margin: 0cm;
+      display: flex;
+      flex-direction: row;
+      background-color: white;
+    }
+}
+
