@@ -1,13 +1,16 @@
+@import url(http://fonts.googleapis.com/css?family=Prata);
 table{  
     border-collapse: collapse;  
     width: 100%;  
     padding: 0cm;
+    background-color: white;
 }  
  .prisustvo tr,td{  
 margin: 0cm;
 padding: 0cm;}
 body{
     font-family: Prata;
+    background-color: darkseagreen;
 } 
 .buduce td{
     display: none;
@@ -19,7 +22,14 @@ height: 1cm;
 text-align: center;
 }  
 p{
+    position: relative;
+
 text-align: center;
+width: 25%;
+margin-left: 37%;
+border-style: solid;
+border-color: black;
+background-color: white;
 }
 .prisustvovao{
     background-color: lightgreen;
