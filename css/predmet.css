@@ -2,6 +2,9 @@
 body{
   font-family: Prata;
   background-color: darkgrey;
+  margin-top: 0cm;
+  margin-left: 0cm;
+  margin-right: 0cm;
 }
 .menu a+ul {
 
