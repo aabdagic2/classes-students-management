@@ -5,9 +5,9 @@ table{
 }  
  .prisustvo tr,td{  
 margin: 0cm;
-padding: 0cm;
-  
-
+padding: 0cm;}
+body{
+    font-family: Prata;
 } 
 .buduce td{
     display: none;

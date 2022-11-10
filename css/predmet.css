@@ -1,3 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Prata);
+body{
+  font-family: Prata;
+  background-color: darkgrey;
+}
 .menu a+ul {
 
 padding: 0cm;
