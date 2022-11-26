@@ -1,6 +1,7 @@
 let TabelaPrisustvo = function (divRef, podaci) {
     //privatni atributi modula
-    //
+    let trenutnaSedmica=-3;
+    let najvecaSedmica=-1;
     //implementacija metoda
     divRef.innerHTML = "";
     var head = document.getElementsByTagName('HEAD')[0];
@@ -12,6 +13,9 @@ let TabelaPrisustvo = function (divRef, podaci) {
     //VALIDACIJA
    //1. Broj prisustva na predavanju/vježbi je veći od broja predavanja/vježbi sedmično
    //2. Broj prisustva je manji od nule
+   iscrtajTabelu();
+   function iscrtajTabelu(){
+    divRef.innerHTML = "";
     let prisustvoVeceOdSedmicnog=0,prisustvoManjeOdNule=0;
     for(let i=0;i<podaci.prisustva.length;i++){
         if(podaci.prisustva[i].predavanja>podaci.brojPredavanjaSedmicno||podaci.prisustva[i].vjezbe>podaci.brojVjezbiSedmicno){
@@ -22,7 +26,6 @@ let TabelaPrisustvo = function (divRef, podaci) {
             prisustvoManjeOdNule=1;
             break;
         }
-       
     }
   //3. Isti student ima dva ili više unosa prisustva za istu sedmicu
 let viseUnosa=0;
@@ -80,12 +83,13 @@ else{
    const tbl = document.createElement("table");
    const headTabele=document.createElement("thead");
    const red=document.createElement("tr");
-   let najvecaSedmica=-1;
     for(let i=0;i<podaci.prisustva.length;i++){
       if(podaci.prisustva[i].sedmica>najvecaSedmica ){
         najvecaSedmica=podaci.prisustva[i].sedmica;
       }
    }
+   if(trenutnaSedmica==-3)
+   trenutnaSedmica=najvecaSedmica;
    const kolona1=document.createElement("th");
  const tekstKolone1=document.createTextNode(`Ime i prezime`);
  kolona1.appendChild(tekstKolone1);
@@ -102,7 +106,7 @@ for(let i=0;i<najvecaSedmica;i++){
  kolona.appendChild(tekstKolone);
  red.appendChild(kolona);
    }
-   if(najvecaSedmica+1!=15){
+   if(trenutnaSedmica+1!=15){
    const kolona=document.createElement("th");
    const tekstKolone=document.createTextNode(`${rimski[najvecaSedmica]} - XV`);
    kolona.appendChild(tekstKolone);
@@ -122,7 +126,7 @@ for(let i=0;i<najvecaSedmica;i++){
      c1.appendChild(ct1);
      row.appendChild(c1);
      let indeksStudenta=podaci.studenti[i].index;
-     for (let j = 0; j < najvecaSedmica-1; j++) {
+     for (let j = 0; j < trenutnaSedmica-1; j++) {
        const cell = document.createElement("td");
        let prisustva1=-1;
        for(let k=0;k<podaci.prisustva.length;k++){
@@ -150,10 +154,10 @@ for(let i=0;i<najvecaSedmica;i++){
         red1.appendChild(cellm);
     
      }
-    if(podaci.prisustva.filter(x=>x.index==indeksStudenta&&x.sedmica==najvecaSedmica).length!=0){
+    if(podaci.prisustva.filter(x=>x.index==indeksStudenta&&x.sedmica==trenutnaSedmica).length!=0){
         let p=-1,v=-1;
         for(let k=0;k<podaci.prisustva.length;k++){
-            if(podaci.prisustva[k].index==indeksStudenta&&podaci.prisustva[k].sedmica==najvecaSedmica){
+            if(podaci.prisustva[k].index==indeksStudenta&&podaci.prisustva[k].sedmica==trenutnaSedmica){
                 p=podaci.prisustva[k].predavanja;
                 v=podaci.prisustva[k].vjezbe;
                 break;
@@ -194,11 +198,30 @@ for(let i=0;i<najvecaSedmica;i++){
         cellm.appendChild(cellt);
         red1.appendChild(cellm);
      }
+     
      tabelica.appendChild(red1);
      tabelica.appendChild(red2);
      tabelica.setAttribute("border", "1");
     cell3.appendChild(tabelica);
-     row.appendChild(cell3);
+    row.appendChild(cell3);
+    for (let j = trenutnaSedmica; j < najvecaSedmica; j++) {
+        const cell12 = document.createElement("td");
+        let prisustva12=-1;
+        for(let k=0;k<podaci.prisustva.length;k++){
+         if(podaci.prisustva[k].index==indeksStudenta&&podaci.prisustva[k].sedmica==j+1){
+             prisustva12=podaci.prisustva[k].predavanja+podaci.prisustva[k].vjezbe;
+             break;
+         }
+        }
+ 
+         let procenat1=((prisustva12)/(podaci.brojPredavanjaSedmicno+podaci.brojVjezbiSedmicno))*100;
+       // ako je prisustva ostao -1 procenat će biti negativan (nema uneseno prisustvo za ovog studenta) pa ćemo ćeliju ostaviti praznu u tom slučaju
+       if(procenat1>=0){
+       const cellText12=document.createTextNode(`${procenat1}%`);
+        cell12.appendChild(cellText12);}
+        row.appendChild(cell12);
+      }
+    
      const cellm=document.createElement("td");
      row.appendChild(cellm);
      tblBody.appendChild(row);
@@ -209,11 +232,39 @@ for(let i=0;i<najvecaSedmica;i++){
      divRef.appendChild(tbl);
      tbl.setAttribute("border", "1");
      tbl.setAttribute("border-collapse", "collapse");
+
+     //ZADATAK 2
+    // <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+     var link1 = document.createElement('link');
+     link1.rel = 'stylesheet';
+     link1.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css';
+     head.appendChild(link1);
+     var btn = document.createElement("button");
+    btn.innerHTML='<i class="fa-solid fa-arrow-left"></i>';
+     btn.onclick = function () {
+      prethodnaSedmica();
+     };
+    divRef.appendChild(btn);
+    var btn1 = document.createElement("button");
+    btn1.innerHTML='<i class="fa-solid fa-arrow-right"></i>';
+     btn1.onclick = function () {
+      sljedecaSedmica();
+     };
+     btn1.style.float="right";
+    divRef.appendChild(btn1);
+    }
 }
 
     let sljedecaSedmica = function () {
+     if(trenutnaSedmica!=najvecaSedmica){
+    trenutnaSedmica++;
+    iscrtajTabelu();
+     }
     }
     let prethodnaSedmica = function () {
+    if(trenutnaSedmica>1){
+    trenutnaSedmica--;
+    iscrtajTabelu();}
     }
     return {
     sljedecaSedmica: sljedecaSedmica,
