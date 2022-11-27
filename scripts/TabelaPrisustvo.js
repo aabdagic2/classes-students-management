@@ -1,7 +1,8 @@
 let TabelaPrisustvo = function (divRef, podaci) {
     //privatni atributi modula
-    let trenutnaSedmica=-3;
+    let trenutnaSedmica=-4;
     let najvecaSedmica=-1;
+    let flegTekIscrtana=0;
     //implementacija metoda
     divRef.innerHTML = "";
     var head = document.getElementsByTagName('HEAD')[0];
@@ -14,6 +15,7 @@ let TabelaPrisustvo = function (divRef, podaci) {
    //1. Broj prisustva na predavanju/vježbi je veći od broja predavanja/vježbi sedmično
    //2. Broj prisustva je manji od nule
    iscrtajTabelu();
+   flegTekIscrtana=1;
    function iscrtajTabelu(){
     divRef.innerHTML = "";
     let prisustvoVeceOdSedmicnog=0,prisustvoManjeOdNule=0;
@@ -71,63 +73,66 @@ break;
     }
    }
 if(prisustvoVeceOdSedmicnog||podaci.brojPredavanjaSedmicno<0||podaci.brojVjezbiSedmicno<0||prisustvoManjeOdNule||viseUnosa||istiIndeks||nijeUListiStudenata||imaPraznih){
-    var tag1=document.createTextNode("Podaci o prisustvu nisu validni!")
-    divRef.appendChild(tag1);
+    var tekstGreske=document.createTextNode("Podaci o prisustvu nisu validni!")
+    divRef.appendChild(tekstGreske);
 }
 else{
-    var tag1=document.createElement("h1")
-    var text=document.createTextNode(podaci.predmet)
-    tag1.appendChild(text);
-    divRef.appendChild(tag1);
-   let studenti=podaci.studenti;
-   const tbl = document.createElement("table");
+    var naslovPredmeta=document.createElement("h1")
+    var textPredmet=document.createTextNode(podaci.predmet)
+    naslovPredmeta.appendChild(textPredmet);
+    divRef.appendChild(naslovPredmeta);
+
+   const tabelaPrisustva = document.createElement("table");
+   //Zaglavlje Tabele
    const headTabele=document.createElement("thead");
    const red=document.createElement("tr");
+   //Pronalazak najvece sedmice
     for(let i=0;i<podaci.prisustva.length;i++){
       if(podaci.prisustva[i].sedmica>najvecaSedmica ){
         najvecaSedmica=podaci.prisustva[i].sedmica;
       }
    }
-   if(trenutnaSedmica==-3)
+   if(trenutnaSedmica==-4)
    trenutnaSedmica=najvecaSedmica;
-   const kolona1=document.createElement("th");
- const tekstKolone1=document.createTextNode(`Ime i prezime`);
- kolona1.appendChild(tekstKolone1);
- red.appendChild(kolona1);
- const kolona2=document.createElement("th");
- const tekstKolone2=document.createTextNode(`Indeks`);
- kolona2.appendChild(tekstKolone2);
- red.appendChild(kolona2);
+   
+   const kolonaIme=document.createElement("th");
+ const tekstKoloneIme=document.createTextNode(`Ime i prezime`);
+ kolonaIme.appendChild(tekstKoloneIme);
+ red.appendChild(kolonaIme);
+ const kolonaIndeks=document.createElement("th");
+ const tekstKoloneIndeks=document.createTextNode(`Indeks`);
+ kolonaIndeks.appendChild(tekstKoloneIndeks);
+ red.appendChild(kolonaIndeks);
 
 let rimski=["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"];
 for(let i=0;i<najvecaSedmica;i++){
- const kolona=document.createElement("th");
- const tekstKolone=document.createTextNode(`${rimski[i]}`);
- kolona.appendChild(tekstKolone);
- red.appendChild(kolona);
+ const kolonaSedmice=document.createElement("th");
+ const tekstKoloneSedmice=document.createTextNode(`${rimski[i]}`);
+ kolonaSedmice.appendChild(tekstKoloneSedmice);
+ red.appendChild(kolonaSedmice);
    }
    if(trenutnaSedmica+1!=15){
-   const kolona=document.createElement("th");
-   const tekstKolone=document.createTextNode(`${rimski[najvecaSedmica]} - XV`);
-   kolona.appendChild(tekstKolone);
-   red.appendChild(kolona);}
+   const kolonaPreostale=document.createElement("th");
+   const tekstKolonePreostale=document.createTextNode(`${rimski[najvecaSedmica]} - XV`);
+   kolonaPreostale.appendChild(tekstKolonePreostale);
+   red.appendChild(kolonaPreostale);}
    headTabele.appendChild(red);
-   const tblBody = document.createElement("tbody");
+   const tabelaPrisustvoBody = document.createElement("tbody");
  
 
    for (let i = 0; i < podaci.studenti.length; i++) {
-     const row = document.createElement("tr");
-     const c=document.createElement("td");
-     const ct=document.createTextNode(`${podaci.studenti[i].ime}`);
-     c.appendChild(ct);
-     row.appendChild(c);
-     const c1=document.createElement("td");
-     const ct1=document.createTextNode(`${podaci.studenti[i].index}`);
-     c1.appendChild(ct1);
-     row.appendChild(c1);
+     const red = document.createElement("tr");
+     const kolonaIme=document.createElement("td");
+     const kolonaImeTekst=document.createTextNode(`${podaci.studenti[i].ime}`);
+     kolonaIme.appendChild(kolonaImeTekst);
+     red.appendChild(kolonaIme);
+     const kolonaIndeks=document.createElement("td");
+     const kolonaIndeksTekst=document.createTextNode(`${podaci.studenti[i].index}`);
+     kolonaIndeks.appendChild(kolonaIndeksTekst);
+     red.appendChild(kolonaIndeks);
      let indeksStudenta=podaci.studenti[i].index;
      for (let j = 0; j < trenutnaSedmica-1; j++) {
-       const cell = document.createElement("td");
+       const kolonaProcenat = document.createElement("td");
        let prisustva1=-1;
        for(let k=0;k<podaci.prisustva.length;k++){
         if(podaci.prisustva[k].index==indeksStudenta&&podaci.prisustva[k].sedmica==j+1){
@@ -139,19 +144,19 @@ for(let i=0;i<najvecaSedmica;i++){
         let procenat=((prisustva1)/(podaci.brojPredavanjaSedmicno+podaci.brojVjezbiSedmicno))*100;
       // ako je prisustva ostao -1 procenat će biti negativan (nema uneseno prisustvo za ovog studenta) pa ćemo ćeliju ostaviti praznu u tom slučaju
       if(procenat>=0){
-      const cellText=document.createTextNode(`${procenat}%`);
-       cell.appendChild(cellText);}
-       row.appendChild(cell);
+      const procenatTekst=document.createTextNode(`${procenat.toFixed(0)}%`);
+       kolonaProcenat.appendChild(procenatTekst);}
+       red.appendChild(kolonaProcenat);
      }
-     const cell3=document.createElement("td");
+     const kolonaTabelice=document.createElement("td");
      const tabelica=document.createElement("table");
      const red1=document.createElement("tr");
      const red2=document.createElement("tr");
      for(let i=0;i<podaci.brojPredavanjaSedmicno;i++){
-        const cellm=document.createElement("td");
-        const cellt=document.createTextNode(`P`);
-        cellm.appendChild(cellt);
-        red1.appendChild(cellm);
+        const kolonaPredavanja=document.createElement("td");
+        const kolonaPredavanjaTekst=document.createTextNode(`P`);
+        kolonaPredavanja.appendChild(kolonaPredavanjaTekst);
+        red1.appendChild(kolonaPredavanja);
     
      }
     if(podaci.prisustva.filter(x=>x.index==indeksStudenta&&x.sedmica==trenutnaSedmica).length!=0){
@@ -164,48 +169,48 @@ for(let i=0;i<najvecaSedmica;i++){
             }
            }
         for(let i=0;i<podaci.brojPredavanjaSedmicno;i++){
-           const cellm=document.createElement("td");
-           cellm.style.backgroundColor="lightcoral";
+           const kolonaPrisustvaPred=document.createElement("td");
+           kolonaPrisustvaPred.style.backgroundColor="lightcoral";
             if(p>0){
-                cellm.style.backgroundColor="lightgreen";
+                kolonaPrisustvaPred.style.backgroundColor="lightgreen";
             p--;}
        
-            red2.appendChild(cellm);
+            red2.appendChild(kolonaPrisustvaPred);
          }
          for(let i=0;i<podaci.brojVjezbiSedmicno;i++){
-            const cellm=document.createElement("td");
-            cellm.style.backgroundColor="lightcoral";
+            const kolonaPrisustvaVjez=document.createElement("td");
+            kolonaPrisustvaVjez.style.backgroundColor="lightcoral";
              if(v>0){
-                 cellm.style.backgroundColor="lightgreen";
+                 kolonaPrisustvaVjez.style.backgroundColor="lightgreen";
              v--;}
         
-             red2.appendChild(cellm);
+             red2.appendChild(kolonaPrisustvaVjez);
           }
      }
      else{
         for(let i=0;i<podaci.brojPredavanjaSedmicno;i++){
-            const cellm=document.createElement("td");
-             red2.appendChild(cellm);
+            const kolonaPredav=document.createElement("td");
+             red2.appendChild(kolonaPredav);
           }
           for(let i=0;i<podaci.brojVjezbiSedmicno;i++){
-             const cellm=document.createElement("td");
-              red2.appendChild(cellm);
+             const kolonaVjez=document.createElement("td");
+              red2.appendChild(kolonaVjez);
            }
      }
      for(let i=0;i<podaci.brojVjezbiSedmicno;i++){
-        const cellm=document.createElement("td");
-        const cellt=document.createTextNode(`V`);
-        cellm.appendChild(cellt);
-        red1.appendChild(cellm);
+        const kolonaV=document.createElement("td");
+        const kolonaVTekst=document.createTextNode(`V`);
+        kolonaV.appendChild(kolonaVTekst);
+        red1.appendChild(kolonaV);
      }
      
      tabelica.appendChild(red1);
      tabelica.appendChild(red2);
      tabelica.setAttribute("border", "1");
-    cell3.appendChild(tabelica);
-    row.appendChild(cell3);
+    kolonaTabelice.appendChild(tabelica);
+    red.appendChild(kolonaTabelice);
     for (let j = trenutnaSedmica; j < najvecaSedmica; j++) {
-        const cell12 = document.createElement("td");
+        const kolonaPris = document.createElement("td");
         let prisustva12=-1;
         for(let k=0;k<podaci.prisustva.length;k++){
          if(podaci.prisustva[k].index==indeksStudenta&&podaci.prisustva[k].sedmica==j+1){
@@ -217,57 +222,61 @@ for(let i=0;i<najvecaSedmica;i++){
          let procenat1=((prisustva12)/(podaci.brojPredavanjaSedmicno+podaci.brojVjezbiSedmicno))*100;
        // ako je prisustva ostao -1 procenat će biti negativan (nema uneseno prisustvo za ovog studenta) pa ćemo ćeliju ostaviti praznu u tom slučaju
        if(procenat1>=0){
-       const cellText12=document.createTextNode(`${procenat1}%`);
-        cell12.appendChild(cellText12);}
-        row.appendChild(cell12);
+       const kolonaPrisTekst=document.createTextNode(`${procenat1.toFixed(0)}%`);
+        kolonaPris.appendChild(kolonaPrisTekst);}
+        red.appendChild(kolonaPris);
       }
-    
-     const cellm=document.createElement("td");
-     row.appendChild(cellm);
-     tblBody.appendChild(row);
+     
+    if(najvecaSedmica<15){
+     const zadnjaKolona=document.createElement("td");
+     red.appendChild(zadnjaKolona);}
+     tabelaPrisustvoBody.appendChild(red);
     }
-    tbl.appendChild(headTabele);
-    tbl.appendChild(tblBody);
+    tabelaPrisustva.appendChild(headTabele);
+    tabelaPrisustva.appendChild(tabelaPrisustvoBody);
 
-     divRef.appendChild(tbl);
-     tbl.setAttribute("border", "1");
-     tbl.setAttribute("border-collapse", "collapse");
+     divRef.appendChild(tabelaPrisustva);
+     tabelaPrisustva.setAttribute("border", "1");
+     tabelaPrisustva.setAttribute("border-collapse", "collapse");
 
      //ZADATAK 2
     // <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-     var link1 = document.createElement('link');
-     link1.rel = 'stylesheet';
-     link1.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css';
-     head.appendChild(link1);
-     var btn = document.createElement("button");
-    btn.innerHTML='<i class="fa-solid fa-arrow-left"></i>';
-     btn.onclick = function () {
+     var linkIkonica = document.createElement('link');
+     linkIkonica.rel = 'stylesheet';
+     linkIkonica.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css';
+     head.appendChild(linkIkonica);
+     var dugmeLijevo = document.createElement("button");
+    dugmeLijevo.innerHTML='<i class="fa-solid fa-arrow-left"></i>';
+     dugmeLijevo.onclick = function () {
       prethodnaSedmica();
      };
-    divRef.appendChild(btn);
-    var btn1 = document.createElement("button");
-    btn1.innerHTML='<i class="fa-solid fa-arrow-right"></i>';
-     btn1.onclick = function () {
+    divRef.appendChild(dugmeLijevo);
+    var dugmeDesno = document.createElement("button");
+    dugmeDesno.innerHTML='<i class="fa-solid fa-arrow-right"></i>';
+     dugmeDesno.onclick = function () {
       sljedecaSedmica();
      };
-     btn1.style.float="right";
-    divRef.appendChild(btn1);
+     dugmeDesno.style.float="right";
+    divRef.appendChild(dugmeDesno);
     }
 }
 
     let sljedecaSedmica = function () {
-     if(trenutnaSedmica!=najvecaSedmica){
+     if(trenutnaSedmica!=najvecaSedmica||flegTekIscrtana==1){
+        flegTekIscrtana=0;
     trenutnaSedmica++;
     iscrtajTabelu();
      }
     }
     let prethodnaSedmica = function () {
     if(trenutnaSedmica>1){
+        flegTekIscrtana=0;
     trenutnaSedmica--;
     iscrtajTabelu();}
     }
     return {
     sljedecaSedmica: sljedecaSedmica,
-    prethodnaSedmica: prethodnaSedmica
+    prethodnaSedmica: prethodnaSedmica,
+    iscrtajTabelu: iscrtajTabelu
     }
     };
