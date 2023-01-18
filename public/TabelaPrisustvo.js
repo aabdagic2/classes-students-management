@@ -8,8 +8,7 @@ let TabelaPrisustvo = function (divRef, podaci) {
     var head = document.getElementsByTagName('HEAD')[0];
     var link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = '../css/prisustvo.css';
+    link.href = './prisustvo.css';
     head.appendChild(link);
     //VALIDACIJA
    //1. Broj prisustva na predavanju/vježbi je veći od broja predavanja/vježbi sedmično
@@ -150,6 +149,7 @@ for(let i=0;i<najvecaSedmica;i++){
      }
      const kolonaTabelice=document.createElement("td");
      const tabelica=document.createElement("table");
+     tabelica.setAttribute('id','n');
      const red1=document.createElement("tr");
      const red2=document.createElement("tr");
      for(let i=0;i<podaci.brojPredavanjaSedmicno;i++){
@@ -168,19 +168,25 @@ for(let i=0;i<najvecaSedmica;i++){
                 break;
             }
            }
-        for(let i=0;i<podaci.brojPredavanjaSedmicno;i++){
+        for(let l=0;l<podaci.brojPredavanjaSedmicno;l++){
            const kolonaPrisustvaPred=document.createElement("td");
            kolonaPrisustvaPred.style.backgroundColor="lightcoral";
+          kolonaPrisustvaPred.setAttribute('id',podaci.studenti[i].ime+"%"+podaci.studenti[i].index+"%"+trenutnaSedmica+"%"+"P%C");
             if(p>0){
                 kolonaPrisustvaPred.style.backgroundColor="lightgreen";
+                kolonaPrisustvaPred.setAttribute('id',podaci.studenti[i].ime+"%"+podaci.studenti[i].index+"%"+trenutnaSedmica+"%"+"P%Z");
             p--;}
        
             red2.appendChild(kolonaPrisustvaPred);
          }
-         for(let i=0;i<podaci.brojVjezbiSedmicno;i++){
-            const kolonaPrisustvaVjez=document.createElement("td");
+         for(let l=0;l<podaci.brojVjezbiSedmicno;l++){
+           const kolonaPrisustvaVjez=document.createElement("td");
             kolonaPrisustvaVjez.style.backgroundColor="lightcoral";
+            //kolonaPrisustvaVjez.id="pc";
+            kolonaPrisustvaVjez.setAttribute('id',podaci.studenti[i].ime+"%"+podaci.studenti[i].index+"%"+trenutnaSedmica+"%"+"V%C");
+            console.log(trenutnaSedmica);
              if(v>0){
+                kolonaPrisustvaVjez.setAttribute('id',podaci.studenti[i].ime+"%"+podaci.studenti[i].index+"%"+trenutnaSedmica+"%"+"V%Z");
                  kolonaPrisustvaVjez.style.backgroundColor="lightgreen";
              v--;}
         
@@ -188,12 +194,14 @@ for(let i=0;i<najvecaSedmica;i++){
           }
      }
      else{
-        for(let i=0;i<podaci.brojPredavanjaSedmicno;i++){
+        for(let l=0;l<podaci.brojPredavanjaSedmicno;l++){
             const kolonaPredav=document.createElement("td");
+            kolonaPredav.setAttribute('id',podaci.studenti[i].ime+"%"+podaci.studenti[i].index+"%"+trenutnaSedmica+"%"+"P%N");
              red2.appendChild(kolonaPredav);
           }
-          for(let i=0;i<podaci.brojVjezbiSedmicno;i++){
+          for(let l=0;l<podaci.brojVjezbiSedmicno;l++){
              const kolonaVjez=document.createElement("td");
+             kolonaVjez.setAttribute('id',podaci.studenti[i].ime+"%"+podaci.studenti[i].index+"%"+trenutnaSedmica+"%"+"V%N");
               red2.appendChild(kolonaVjez);
            }
      }
@@ -208,6 +216,7 @@ for(let i=0;i<najvecaSedmica;i++){
      tabelica.appendChild(red2);
      tabelica.setAttribute("border", "1");
     kolonaTabelice.appendChild(tabelica);
+    //kolonaTabelice.id="idd";
     red.appendChild(kolonaTabelice);
     for (let j = trenutnaSedmica; j < najvecaSedmica; j++) {
         const kolonaPris = document.createElement("td");

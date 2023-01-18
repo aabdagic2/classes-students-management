@@ -7,13 +7,25 @@ window.onload = function () {
    var loginForm = document.getElementById("LoginForm");
    
   document.getElementById("posalji").addEventListener("click", function () {
-    pokusajAjax(loginForm);
+   // pokusajAjax(loginForm);
+   PoziviAjax.postLogin(loginForm.username.value,loginForm.password.value,ispisi);
   });
 };
 
-function ispisi(poruka) {
-  porukaElement.innerHTML = poruka;
- 
+function ispisi(error,data) {
+  if(data=="Neuspješna prijava"){
+    porukaElement.innerHTML = data;
+  
+  }
+  else if(error!=null){
+  porukaElement.innerHTML = error;
+}
+ else if(data=="Uspješna prijava"){
+   porukaElement.innerHTML=data;
+   setTimeout(() => {
+    window.location.replace("http://localhost:3000/predmeti.html");
+  }, 1000);
+ }
 }
 
 function pokusajAjax(form) {
@@ -23,11 +35,10 @@ function pokusajAjax(form) {
   ajax.onreadystatechange = function () {
     if (ajax.readyState == 4 && ajax.status == 200) {
       var jsonRez = JSON.parse(ajax.responseText);
-      ispisi(jsonRez.poruka);
       if(jsonRez.poruka=="Uspješna prijava")
       window.location.replace("http://localhost:3000/predmeti.html");
 
-    } else if (ajax.readyState == 4) ispisi(ajax.statusText);
+    } else if (ajax.readyState == 4) un;
   };
   ajax.open("POST", "http://localhost:3000/login", true);
   ajax.setRequestHeader("Content-Type", "application/json");
