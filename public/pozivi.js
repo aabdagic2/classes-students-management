@@ -13,20 +13,16 @@ window.onload = function () {
 };
 
 function ispisi(error,data) {
-  if(data=="Neuspješna prijava"){
-    porukaElement.innerHTML = data;
-  
-  }
-  else if(error!=null){
-  porukaElement.innerHTML = error;
-}
- else if(data=="Uspješna prijava"){
+  if(data=="Uspješna prijava"){
    porukaElement.innerHTML=data;
     window.location.replace("http://localhost:3000/predmeti.html");
  }
+ else{
+  porukaElement.innerHTML=error;
+ }
 }
 
-function pokusajAjax(form) {
+/*function pokusajAjax(form) {
   var ajax = new XMLHttpRequest();
   var un = form.username.value;
   var pw = form.password.value;
@@ -41,4 +37,4 @@ function pokusajAjax(form) {
   ajax.open("POST", "http://localhost:3000/login", true);
   ajax.setRequestHeader("Content-Type", "application/json");
   ajax.send(JSON.stringify({ username:un, password:pw }));
-}
+}*/

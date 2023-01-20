@@ -174,7 +174,7 @@ for(let i=0;i<najvecaSedmica;i++){
            kolonaPrisustvaPred.style.backgroundColor="lightcoral";
           kolonaPrisustvaPred.setAttribute('id',podaci.studenti[i].ime+"%"+podaci.studenti[i].index+"%"+trenutnaSedmica+"%"+"P%C");
           kolonaPrisustvaPred.addEventListener("click", function() {
-            console.log(this.id+this.style.backgroundColor);
+            
             var predmet=podaci.predmet;
             var indeks=podaci.studenti[i].index;
             var predavanja=true;
@@ -203,13 +203,12 @@ for(let i=0;i<najvecaSedmica;i++){
             //kolonaPrisustvaVjez.id="pc";
             kolonaPrisustvaVjez.setAttribute('id',podaci.studenti[i].ime+"%"+podaci.studenti[i].index+"%"+trenutnaSedmica+"%"+"V%C");
             kolonaPrisustvaVjez.addEventListener("click", function() {
-                console.log(this.id+this.style.backgroundColor);
             var predmet=podaci.predmet;
             var indeks=podaci.studenti[i].index;
             var predavanja=true;
             var crveno=1;
             if(this.style.backgroundColor=="lightcoral"){
-               // kliknuto(predmet,indeks,trenutnaSedmica,predavanja,crveno);
+               
                 PoziviAjax.postPrisustvo(predmet,indeks,{sedmica: trenutnaSedmica, predavanja: p1,vjezbe: v1+1},tabela);
             }
             else{
@@ -245,7 +244,6 @@ for(let i=0;i<najvecaSedmica;i++){
              kolonaVjez.addEventListener("click", function() {
                 var predmet=podaci.predmet;
                 var indeks=podaci.studenti[i].index;
-                console.log("222222222222222222222222222");
                 var pr=0;
                 var vj=1;
                 PoziviAjax.postPrisustvo(predmet,indeks,{sedmica: trenutnaSedmica, predavanja: pr,vjezbe: vj},tabela);

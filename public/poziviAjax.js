@@ -31,10 +31,10 @@ const PoziviAjax = (()=>{
     if (ajax.readyState == 4 && ajax.status == 200) {
   var predmeti1=JSON.parse(ajax.responseText);
   fnCallback(null,predmeti1.predmeti);
+  console.log(predmeti1);
   return predmeti1.predmeti;
     }
-    else if (ajax.readyState == 4) {
-      error=ajax.statusText;
+    else if (ajax.readyState == 4) {error=ajax.statusText;
         fnCallback(error,null);
         return error;
     }
@@ -46,7 +46,10 @@ const PoziviAjax = (()=>{
             var jsonRez = JSON.parse(ajax.responseText);
             console.log(jsonRez.poruka);
             fnCallback(null,jsonRez.poruka); 
-          } else if (ajax.readyState == 4) fnCallback(ajax.statusText,null);
+          } else if (ajax.readyState == 4) {
+            var jsonRez = JSON.parse(ajax.responseText);
+            console.log(jsonRez);
+            fnCallback(jsonRez.poruka,null);}
         };
         ajax.open("POST", "http://localhost:3000/login", true);
         ajax.setRequestHeader("Content-Type", "application/json");
