@@ -13,16 +13,11 @@ window.onload = function () {
 };
 
 function ispisi(error,data) {
-  if(data=="Neuspješna prijava"){
-    porukaElement.innerHTML = data;
-  
-  }
-  else if(error!=null){
-  porukaElement.innerHTML = error;
-}
- else if(data=="Uspješna prijava"){
+ if(data=="Uspješna prijava"){
    porukaElement.innerHTML=data;
     window.location.replace("http://localhost:3000/predmeti.html");
+ }else{
+  porukaElement.innerHTML=error;
  }
 }
 

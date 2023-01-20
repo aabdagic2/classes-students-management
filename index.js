@@ -39,8 +39,7 @@ if(pronadjeno==true){
     res.json({ poruka: "Uspješna prijava"});
 }
 else{
-  //res.status(400);
-    res.json({ poruka: "Neuspješna prijava"});
+  res.status(400).json({ poruka: "Neuspješna prijava"});
 }});
 
 
