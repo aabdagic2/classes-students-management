@@ -22,9 +22,7 @@ function ispisi(error,data) {
 }
  else if(data=="Uspješna prijava"){
    porukaElement.innerHTML=data;
-   setTimeout(() => {
     window.location.replace("http://localhost:3000/predmeti.html");
-  }, 1000);
  }
 }
 
