@@ -16,10 +16,10 @@ function ispisi(error,data) {
   if(data=="Uspješna prijava"){
    porukaElement.innerHTML=data;
     window.location.replace("http://localhost:3000/predmeti.html");
- }
- else{
+ }else{
   porukaElement.innerHTML=error;
  }
+
 }
 
 /*function pokusajAjax(form) {
